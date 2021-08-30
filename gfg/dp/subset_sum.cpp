@@ -1,27 +1,25 @@
-// Memoization
-class Solution
-{
-    public:
-    int dp[1001][1001];
-     
-    int solve(int W, int wt[], int val[], int n){
-        if(n == 0 || W == 0) return 0;
+
+class Solution{   
+public:
+    
+    bool isSubsetSum(int N, int arr[], int sum){
+        // code here 
+        int dp[N+1][sum+1];
         
-        if(dp[n][W] != -1) return dp[n][W];
+        // initialization
+        for(int i=0; i<= N; i++) dp[i][0] = 1;
+        for(int j=1; j<= sum; j++) dp[0][j] = 0;
         
-        if(W - wt[n-1] >= 0)
-            return dp[n][W] = max( val[n-1] + solve(W-wt[n-1], wt, val, n-1), solve(W, wt, val, n-1));
-        else
-            return dp[n][W] = solve(W, wt, val, n-1);
-    }
-    //Function to return max value that can be put in knapsack of capacity W.
-    int knapSack(int W, int wt[], int val[], int n) 
-    { 
-       // Your code here
-       
-       memset(dp, -1, sizeof(dp));
-       return solve(W, wt,val, n);
+        for(int i=1; i<=N; i++){
+            for(int j=1; j<= sum; j++){
+                if(arr[i-1] <= j){
+                    dp[i][j] = dp[i-1][j-arr[i-1]] || dp[i-1][j];
+                }
+                else{
+                    dp[i][j] = dp[i-1][j];
+                }
+            }
+        }
+        return dp[N][sum];
     }
 };
-
-// TODO: add top down approach
