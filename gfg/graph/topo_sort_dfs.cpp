@@ -1,35 +1,40 @@
-class Solution {
-public:
-    
-    void dfs(int x, int y, vector<vector<char>>& grid){
-        if(x >= grid.size() || y >= grid[0].size() || x < 0 || y < 0)
-            return;
-        if(grid[x][y] != '1') 
-            return;
-        
-        grid[x][y] = '2';
-        
-        dfs(x+1, y, grid);
-        dfs(x-1, y, grid);
-        dfs(x, y+1, grid);
-        dfs(x, y-1, grid);
-        
-    }
-    int numIslands(vector<vector<char>>& grid) {
-        int m = grid.size();
-        int n = grid[0].size();   
-        int ans = 0;
-        
-        for(int i=0; i<m; i++){
-            for(int j=0; j<n; j++){
-                if(grid[i][j] == '1'){
-                    dfs(i, j, grid);
-                    ++ans;
-                }
-            }
-        }
-        return ans;
-    }
+// { Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;
+
+ // } Driver Code Ends
+class Solution
+{
+	public:
+	//Function to return list containing vertices in Topological order. 
+	vector<int> topoSort(int V, vector<int> adj[]) 
+	{
+	    // code here
+	    vector<int> indegree(V+1, 0);
+	    for(int i=0;i<V;i++){
+	        for(auto it: adj[i]){
+	            indegree[it]++;
+	        }
+	    }
+	    
+	    queue<int> q;
+	    for(int i=0; i<V; i++){
+	        if(indegree[i] == 0)
+	            q.push(i);
+	    }
+	    
+	    vector<int> topo;
+	    while(!q.empty()){
+	        int node = q.front();
+	        q.pop();
+	        topo.push_back(node);
+	        for(auto it: adj[node]){
+	            indegree[it]--;
+	            if(indegree[it] == 0) q.push(it);
+	        }
+	    }
+	    return topo;
+	}
 };
 
 // can be solved using bfs using Kahn's algorithm
