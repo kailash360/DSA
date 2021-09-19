@@ -1,4 +1,6 @@
 // Yet to figure out the error in this code....
+#include <bits/stdc++.h>
+using namespace std;
 
 class Solution{
 

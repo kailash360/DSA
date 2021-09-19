@@ -40,7 +40,7 @@ public:
             else if(dp[i-1][j] > dp[i][j-1]){
                 s.push_back(str2[j-1]);
                 j--;
-            }
+            } 
             else{
                 s.push_back(str1[i-1]);
                 i--;
