@@ -1,14 +1,16 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+// --> Pass string as a pointer and not as a copy. Copying a string and then passing it takes extra time which will lead to TLE.
+// --> Alogwith returning dp[idx][matching] modify it too. So that we don't have to do the same task again later on.
 class Solution {
 public:
     // TODO:
-    // need to optimize
+    // need to optimize 
     // memoized approach
     int dp[1001][1001];
-    int solve(string x, string y, int idx, int matching){
-        int ans = 0;
+    int solve(string &x, string &y, int idx, int matching){
+        // int ans = 0;
         if(dp[idx][matching] != -1)
             return dp[idx][matching];
         if(matching == y.length())
@@ -19,12 +21,12 @@ public:
             return 0;
         
         if(x[idx] == y[matching]){
-            ans = ans + (dp[idx+1][matching+1]!=-1 ? dp[idx+1][matching+1] : solve(x, y, idx+1, matching + 1)) + (dp[idx+1][matching]!=-1 ? dp[idx+1][matching] :solve(x, y, idx+1, matching));
+            dp[idx][matching] = solve(x,y,idx+1,matching+1)+solve(x,y,idx+1,matching);
         }
-        else {
-            ans = ans + (dp[idx+1][matching]!=-1 ? dp[idx+1][matching] :solve(x, y, idx+1, matching));
+        else{
+            dp[idx][matching] = solve(x,y,idx+1,matching);
         }
-        return dp[idx][matching] = ans;
+        return dp[idx][matching];
     }
         
     int numDistinct(string s, string t) {
